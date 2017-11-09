@@ -3,9 +3,13 @@ TABLES
 ______
 
 ART(art_id, art_title, artist, art_type, art_price, seller_id)
+
 ART_DESCRIPTION(art_id, description, age, photo)
-CUSTOMER(cust_id, cust_password, cust_name, cust_phone, cust_address)
+
+CUSTOMER(cust_id, username, cust_password, cust_name, cust_phone, cust_address)
+
 SELLER(seller_id, seller_name, seller_phone, seller_address)
+
 PURCHASES(cust_id, art_id, art_name, artist, art_price, seller_id)
 
 _______________________________

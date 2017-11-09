@@ -15,10 +15,10 @@ div.login_box {
     border-radius: 1.5em;
     background-color: white;
     padding: 2.5em;
-}
-div.login_box {
+
     background-color: #ffffff;
     opacity: 0.8;
+
 }
 #login {
     font-weight: bold;
