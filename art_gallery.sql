@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2017 at 07:13 PM
+-- Generation Time: Nov 09, 2017 at 11:46 PM
 -- Server version: 5.7.19-log
 -- PHP Version: 7.1.9
 
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `art_gallery`
 --
-CREATE DATABASE IF NOT EXISTS `art_gallery` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `art_gallery` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; 
 USE `art_gallery`;
 
 -- --------------------------------------------------------
@@ -30,7 +30,6 @@ USE `art_gallery`;
 -- Table structure for table `art`
 --
 
-DROP TABLE IF EXISTS `art`;
 CREATE TABLE `art` (
   `art_id` int(11) NOT NULL,
   `art_title` varchar(50) NOT NULL,
@@ -57,7 +56,6 @@ INSERT INTO `art` (`art_id`, `art_title`, `artist`, `art_type`, `art_price`, `se
 -- Table structure for table `art_description`
 --
 
-DROP TABLE IF EXISTS `art_description`;
 CREATE TABLE `art_description` (
   `art_id` int(11) NOT NULL,
   `description` text NOT NULL,
@@ -70,11 +68,11 @@ CREATE TABLE `art_description` (
 --
 
 INSERT INTO `art_description` (`art_id`, `description`, `year`, `photo`) VALUES
-(1, 'The Scream is the popular name given to each of four versions of a composition, created as both paintings and pastels, by Norwegian Expressionist artist Edvard Munch between 1893 and 1910. The German title Munch gave these works is Der Schrei der Natur (The Scream of Nature). The works show a figure with an agonized expression against a landscape with a tumultuous orange sky. Arthur Lubow has described The Scream as \"an icon of modern art, a Mona Lisa for our time.\"', 1893, 'assets/scream_edvard_munch.jpg'),
-(2, 'The Starry Night is an oil on canvas by the Dutch post-impressionist painter Vincent van Gogh. Painted in June 1889, it depicts the view from the east-facing window of his asylum room at Saint-Rémy-de-Provence, just before sunrise, with the addition of an idealized village. It has been in the permanent collection of the Museum of Modern Art in New York City since 1941, acquired through the Lillie P. Bliss Bequest. It is regarded as among Van Gogh\'s finest works  and is one of the most recognized paintings in the history of Western culture.', 1889, 'assets/starrynight_van_gogh.jpg'),
-(3, 'The Mona Lisa is a half-length portrait painting by the Italian Renaissance artist Leonardo da Vinci that has been described as \"the best known, the most visited, the most written about, the most sung about, the most parodied work of art in the world\".', 1503, 'assets/monalisa_davinci.jpg'),
-(4, 'The Persistence of Memory is a 1931 painting by artist Salvador Dalí, and is one of his most recognizable works. First shown at the Julien Levy Gallery in 1932, since 1934 the painting has been in the collection of the Museum of Modern Art (MoMA) in New York City, which received it from an anonymous donor. It is widely recognized and frequently referenced in popular culture, and sometimes referred to by more descriptive titles, such as \'Melting Clocks\', \'The Soft Watches\', or \'The Melting Watches\'.', 1931, 'assets/persistenceofmemory_salvadordali.jpg'),
-(5, 'The Last Supper is a late 15th-century mural painting by Leonardo da Vinci housed by the refectory of the Convent of Santa Maria delle Grazie in Milan. It is one of the world\'s most recognizable paintings. The painting represents the scene of The Last Supper of Jesus with his apostles, as it is told in the Gospel of John, 13:21. Leonardo has depicted the consternation that occurred among the Twelve Disciples when Jesus announced that one of them would betray him.', 1497, 'assets/lastsupper_davinci.jpg');
+(1, 'The Scream is the popular name given to each of four versions of a composition, created as both paintings and pastels, by Norwegian Expressionist artist Edvard Munch between 1893 and 1910. The German title Munch gave these works is Der Schrei der Natur (The Scream of Nature). The works show a figure with an agonized expression against a landscape with a tumultuous orange sky. Arthur Lubow has described The Scream as \"an icon of modern art, a Mona Lisa for our time.\"', 1893, 'scream_edvard_munch.jpg'),
+(2, 'The Starry Night is an oil on canvas by the Dutch post-impressionist painter Vincent van Gogh. Painted in June 1889, it depicts the view from the east-facing window of his asylum room at Saint-Rémy-de-Provence, just before sunrise, with the addition of an idealized village. It has been in the permanent collection of the Museum of Modern Art in New York City since 1941, acquired through the Lillie P. Bliss Bequest. It is regarded as among Van Gogh\'s finest works  and is one of the most recognized paintings in the history of Western culture.', 1889, 'starrynight_van_gogh.jpg'),
+(3, 'The Mona Lisa is a half-length portrait painting by the Italian Renaissance artist Leonardo da Vinci that has been described as \"the best known, the most visited, the most written about, the most sung about, the most parodied work of art in the world\".', 1503, 'monalisa_davinci_sq.jpg'),
+(4, 'The Persistence of Memory is a 1931 painting by artist Salvador Dalí, and is one of his most recognizable works. First shown at the Julien Levy Gallery in 1932, since 1934 the painting has been in the collection of the Museum of Modern Art (MoMA) in New York City, which received it from an anonymous donor. It is widely recognized and frequently referenced in popular culture, and sometimes referred to by more descriptive titles, such as \'Melting Clocks\', \'The Soft Watches\', or \'The Melting Watches\'.', 1931, 'persistenceofmemory_salvadordali.jpg'),
+(5, 'The Last Supper is a late 15th-century mural painting by Leonardo da Vinci housed by the refectory of the Convent of Santa Maria delle Grazie in Milan. It is one of the world\'s most recognizable paintings. The painting represents the scene of The Last Supper of Jesus with his apostles, as it is told in the Gospel of John, 13:21. Leonardo has depicted the consternation that occurred among the Twelve Disciples when Jesus announced that one of them would betray him.', 1497, 'lastsupper_davinci.jpg');
 
 -- --------------------------------------------------------
 
@@ -82,7 +80,6 @@ INSERT INTO `art_description` (`art_id`, `description`, `year`, `photo`) VALUES
 -- Table structure for table `customer`
 --
 
-DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
   `id` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
@@ -113,7 +110,6 @@ INSERT INTO `customer` (`id`, `username`, `password`, `name`, `phone`, `address`
 -- Table structure for table `purchases`
 --
 
-DROP TABLE IF EXISTS `purchases`;
 CREATE TABLE `purchases` (
   `id` int(11) NOT NULL,
   `art_id` int(11) NOT NULL
@@ -125,7 +121,6 @@ CREATE TABLE `purchases` (
 -- Table structure for table `sellers`
 --
 
-DROP TABLE IF EXISTS `sellers`;
 CREATE TABLE `sellers` (
   `seller_id` int(11) NOT NULL,
   `seller_name` varchar(30) NOT NULL,

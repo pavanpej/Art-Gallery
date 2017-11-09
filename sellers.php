@@ -1,10 +1,12 @@
 <?php
   // Include config file
     require_once 'config.php';
-    
   //start session, if it exists
   session_start();
 
+  if(!isset($_SESSION['username'])){ 
+      header("Location: index.php");
+    }
   $username = $_SESSION['username'];
 
 ?>

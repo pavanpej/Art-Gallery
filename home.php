@@ -5,6 +5,9 @@
   //start session, if it exists
   session_start();
 
+  if(!isset($_SESSION['username'])){ 
+      header("Location: index.php");
+    }
   $username = $_SESSION['username'];
   $art_title = $art_url = $art_description = ""
 
