@@ -1,6 +1,7 @@
 <?php
   // Include config file
     require_once 'config.php';
+    
   //start session, if it exists
   session_start();
 

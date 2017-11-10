@@ -32,6 +32,7 @@
 
     <!-- Other Custom Style -->
     <link rel="stylesheet" type="text/css" href="style/otherstyle.css">
+
   </head>
 
   <body>
@@ -67,7 +68,7 @@
     <!-- Content -->
     <main role="main">
 
-      <div class="jumbotron text-center">
+      <div class="jumbotron text-center head1">
         <h1>
           Welcome, <?php echo ucfirst($username); ?>
         </h1>
