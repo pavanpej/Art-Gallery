@@ -24,13 +24,17 @@
     <!-- Custom styles for this template -->
     <!-- <link href="navbar-top-fixed.css" rel="stylesheet"> -->
 
+    <!-- Custom styles for this footer -->
+    <link href="style/sticky-footer-navbar.css" rel="stylesheet">
+
     <!-- Other Custom Style -->
     <link rel="stylesheet" type="text/css" href="style/otherstyle.css">
   </head>
 
   <body>
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+    <header class="sticky-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <div class="navbar-brand display-2" id="nav1"><strong>Art Gallery</strong></div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -54,14 +58,25 @@
         <a class="navbar-brand btn btn-danger float-right" href="logout.php">Logout</a>
       </div>
     </nav>
+  </header>
 
 
     <!-- Content -->
-    <div class="jumbotron text-center">
+    <main role="main">
+      
+    <div class="jumbotron text-center head1">
       <h1>
         About
       </h1>
     </div>
+    </main>
+
+
+    <footer class="footer">
+      <div class="container text-center">
+        <span class="text-muted">&copy; Pavan Rao, 2017.</span>
+      </div>
+    </footer>
 
     
     <!-- Scripts -->

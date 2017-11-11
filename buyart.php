@@ -1,15 +1,26 @@
 <?php
   // Include config file
     require_once 'config.php';
-    
   //start session, if it exists
   session_start();
-
   if(!isset($_SESSION['username'])){ 
       header("Location: index.php");
     }
-  $username = $_SESSION['username'];
 
+  function aboutArt($art_id = "")
+  {
+    $username = $_SESSION['username'];
+    $link = $GLOBALS['link'];
+
+    $sql = "SELECT art_title, art_price, description, photo FROM art, art_description WHERE art.art_id = art_description.art_id and art.art_id = $art_id;";
+
+    $result = mysqli_query($link, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $art_title =  $row['art_title'];
+    $art_price = $row['art_price'];
+    $art_description = $row['description'];
+    $art_url = $row['photo'];
+   
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,7 +44,6 @@
 
   <body>
 
-      
     <header class="sticky-top">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <div class="navbar-brand display-2" id="nav1"><strong>Art Gallery</strong></div>
@@ -45,7 +55,7 @@
           <li class="nav-item">
             <a class="nav-link" href="home.php">Home</a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="sellers.php">Sellers</a>
           </li>
           <li class="nav-item">
@@ -59,45 +69,18 @@
         <a class="navbar-brand btn btn-danger float-right" href="logout.php">Logout</a>
       </div>
     </nav>
-    </header>
-
+  </header>
 
     <!-- Content -->
     <main role="main">
       
     <div class="jumbotron text-center head1">
       <h1>
-        Our Sellers
+        About <?php echo $art_title; ?>
       </h1>
     </div>
-
-    <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#infoModal">
-        More
-      </button>
-
-      <!-- Modal -->
-      <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Hello darkness my old friend...</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Buy</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </main>
+
 
     <footer class="footer">
       <div class="container text-center">
@@ -105,9 +88,15 @@
       </div>
     </footer>
 
+    
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script type="text/javascript" src="style/bootstrap4/js/bootstrap.js"></script>
   </body>
 </html>
+<?php
+
+  } //end of the function that loads the entire page
+  aboutArt(4); //for art id = 3
+?>
