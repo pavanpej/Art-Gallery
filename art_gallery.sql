@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2017 at 11:46 PM
+-- Generation Time: Nov 12, 2017 at 08:39 PM
 -- Server version: 5.7.19-log
 -- PHP Version: 7.1.9
 
@@ -21,8 +21,40 @@ SET time_zone = "+00:00";
 --
 -- Database: `art_gallery`
 --
-CREATE DATABASE IF NOT EXISTS `art_gallery` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; 
+CREATE DATABASE IF NOT EXISTS `art_gallery` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `art_gallery`;
+
+DELIMITER $$
+--
+-- Procedures
+--
+DROP PROCEDURE IF EXISTS `update_count`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_count` (IN `custid` INT, IN `artid` INT, IN `newcount` INT)  MODIFIES SQL DATA
+    COMMENT 'updates or inserts into the purchases '
+BEGIN
+    DECLARE oldcount INT DEFAULT 0;
+    declare updatecount INT;
+SELECT 
+    purchases.count
+INTO oldcount FROM
+    purchases
+WHERE
+    purchases.id = custid
+        AND purchases.art_id = artid; IF oldcount = 0 THEN
+INSERT INTO purchases
+VALUES(custid, artid, newcount); ELSE
+SET
+    updatecount = newcount + oldcount;
+UPDATE purchases 
+SET 
+    purchases.count = updatecount
+WHERE
+    purchases.id = custid
+        AND purchases.art_id = artid;
+END IF;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -30,6 +62,7 @@ USE `art_gallery`;
 -- Table structure for table `art`
 --
 
+DROP TABLE IF EXISTS `art`;
 CREATE TABLE `art` (
   `art_id` int(11) NOT NULL,
   `art_title` varchar(50) NOT NULL,
@@ -56,6 +89,7 @@ INSERT INTO `art` (`art_id`, `art_title`, `artist`, `art_type`, `art_price`, `se
 -- Table structure for table `art_description`
 --
 
+DROP TABLE IF EXISTS `art_description`;
 CREATE TABLE `art_description` (
   `art_id` int(11) NOT NULL,
   `description` text NOT NULL,
@@ -80,6 +114,7 @@ INSERT INTO `art_description` (`art_id`, `description`, `year`, `photo`) VALUES
 -- Table structure for table `customer`
 --
 
+DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
   `id` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
@@ -110,10 +145,22 @@ INSERT INTO `customer` (`id`, `username`, `password`, `name`, `phone`, `address`
 -- Table structure for table `purchases`
 --
 
+DROP TABLE IF EXISTS `purchases`;
 CREATE TABLE `purchases` (
   `id` int(11) NOT NULL,
-  `art_id` int(11) NOT NULL
+  `art_id` int(11) NOT NULL,
+  `count` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `purchases`
+--
+
+INSERT INTO `purchases` (`id`, `art_id`, `count`) VALUES
+(3, 1, 2),
+(3, 4, 6),
+(9, 2, 2),
+(11, 5, 10);
 
 -- --------------------------------------------------------
 
@@ -121,6 +168,7 @@ CREATE TABLE `purchases` (
 -- Table structure for table `sellers`
 --
 
+DROP TABLE IF EXISTS `sellers`;
 CREATE TABLE `sellers` (
   `seller_id` int(11) NOT NULL,
   `seller_name` varchar(30) NOT NULL,
@@ -167,7 +215,7 @@ ALTER TABLE `customer`
 -- Indexes for table `purchases`
 --
 ALTER TABLE `purchases`
-  ADD KEY `purchases_ibfk_1` (`id`),
+  ADD PRIMARY KEY (`id`,`art_id`) USING BTREE,
   ADD KEY `art_id` (`art_id`);
 
 --

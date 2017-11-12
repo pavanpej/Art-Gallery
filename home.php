@@ -9,11 +9,20 @@
       header("Location: index.php");
     }
   $username = $_SESSION['username'];
-  $art_id = $art_title = $art_url = $art_description = ""
+  $art_id = $art_title = $art_url = $art_description = "";
 
-  
+  function buy1($art_id1 = "")
+  {
+    // $link = $GLOBALS['link'];
+    $sql = "SELECT seller_name from sellers, art WHERE art.seller_id = sellers.seller_id AND art.art_id = $art_id1;";
+    $result = mysqli_query($link, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $output = $row['seller_name'];
+    echo 'alert($output);';
+  }
 
 ?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -83,7 +92,7 @@
       <div class="container">
         <div class="card-deck">
           <?php
-            $sql = "SELECT art.art_id, art_title, art_price, description, photo FROM art, art_description WHERE art.art_id = art_description.art_id;";
+            $sql = "SELECT art.art_id, artist, art_title, art_price, description, photo FROM art, art_description WHERE art.art_id = art_description.art_id;";
             
             $result = mysqli_query($link, $sql);
             if (mysqli_num_rows($result) > 0) {
@@ -91,6 +100,7 @@
                 // output data of each row
                 while($row = mysqli_fetch_assoc($result)) {
                   $art_id = $row['art_id'];
+                  $artist = $row['artist'];
                   $art_title =  $row['art_title'];
                   $art_price = $row['art_price'];
                   $art_description = $row['description'];
@@ -102,21 +112,20 @@
                 <img class="card-img-top" src="assets/<?php echo $art_url;?>" height=300 width=300 style="position: relative;" alt="Art Image">
                 <div class="card-body">
                   <h4 class="card-title"><?php echo $art_title;?></h4>
-                  <!-- <p class="card-text"><?php echo $art_description;?></p> -->
+                  <h6>By: <?php echo $artist; ?></h6>
                 </div>
-                <ul class="list-group list-group-flush">
+                <!-- <ul class="list-group list-group-flush">
                   <li class="list-group-item border-success">Price: $<?php echo $art_price;?></li>
-                </ul>
+                </ul> -->
                 <div class="card-footer">
-                <form method="post" action="">
                     <button type="button" class="btn btn-primary" name="buy" data-toggle="modal" data-target="#infoModal<?php echo $art_id ?>">More</button>
-                </form>
                 </div>
               </div>
 
 
           <!-- Modal for info about art and buying it  -->
           <div class="modal fade" id="infoModal<?php echo $art_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -125,18 +134,25 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
+
                 <div class="modal-body">
-                  <!-- <p>Enter CVV (4 digits) to buy <?php echo $art_title; ?></p> -->
                   <p>
-                    <?php echo $art_description; ?>
+                    <strong>
+                    Price to be paid: $<?php echo $art_price; ?>
+                    </strong>
                   </p>
                 </div>
+                      
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" onclick="<?php buy($art_id); ?>">Buy</button>
+                  <form method="post" action="buyart.php">
+                    <input type="hidden" name="art_id" value="<?php echo $art_id; ?>">
+                    <input type="submit" class="btn btn-primary" value="Details" name="Buy">
+                  </form>
                 </div>
               </div>
             </div>
+
           </div>
 
           <?php 
@@ -146,20 +162,13 @@
                     $i++;
                     }
                   } else {
-                      echo "0 results";
+                      echo "No results";
                   }
 
 
             mysqli_close($link);
 
-            function buy($art_id1='')
-            {
-              $sql = "SELECT seller_name from sellers, art WHERE art.seller_id = sellers.seller_id AND art.art_id = $art_id1;";
-              $result = mysqli_query($link, $sql);
-              $row = mysqli_fetch_assoc($result);
-              $output = "Sold by ".$row['seller_name'];
-              
-            }
+            
           ?>
         </div>
 

@@ -6,20 +6,23 @@
   if(!isset($_SESSION['username'])){ 
       header("Location: index.php");
     }
-
-  function aboutArt($art_id = "")
-  {
+    $art_id = $result = $row = $art_title = $artist = $art_description = $art_price = $art_url = "";
     $username = $_SESSION['username'];
-    $link = $GLOBALS['link'];
 
-    $sql = "SELECT art_title, art_price, description, photo FROM art, art_description WHERE art.art_id = art_description.art_id and art.art_id = $art_id;";
+    //Propagate art id from home page for particular button using POST
+    $art_id = $_POST['art_id'];
+
+    //sql to obtain details about selected art
+    $sql = "SELECT art_title, artist, art_price, description, photo, seller_name FROM art, art_description, sellers WHERE art.art_id = art_description.art_id and art.seller_id = sellers.seller_id and art.art_id = $art_id;";
 
     $result = mysqli_query($link, $sql);
     $row = mysqli_fetch_assoc($result);
     $art_title =  $row['art_title'];
+    $artist = $row['artist'];
     $art_price = $row['art_price'];
     $art_description = $row['description'];
     $art_url = $row['photo'];
+    $seller_name = $row['seller_name'];
    
 ?>
 <!doctype html>
@@ -69,18 +72,91 @@
         <a class="navbar-brand btn btn-danger float-right" href="logout.php">Logout</a>
       </div>
     </nav>
-  </header>
+    </header>
 
     <!-- Content -->
     <main role="main">
       
     <div class="jumbotron text-center head1">
-      <h1>
-        About <?php echo $art_title; ?>
-      </h1>
+      <h2>
+        <?php echo $art_title; ?>
+      </h2>
+      <h4 class="text-muted">
+          By: <?php echo $artist;?>
+      </h4>
     </div>
-    </main>
+    <!-- 
+    <div class="container">
+      <img src="assets/<?php echo $art_url;?>" height=300 width=300 style="position: relative;" alt="Art Image">
+    </div>
 
+    <div class="container" align="right">
+      <div class="card border-dark mb-3 text-center" style="width: 20rem; ">
+        <img class="card-img-top" src="assets/<?php echo $art_url;?>" height=300 width=300 style="position: relative;" alt="Art Image">
+        <div class="card-body">
+          <h4 class="card-title"><?php echo $art_title;?></h4>
+          <p><?php echo $art_description;?></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item border-success">Price: $<?php echo $art_price;?></li>
+        </ul>
+        <div class="card-footer">
+          <button type="button" class="btn btn-primary" name="buy" data-toggle="modal" data-target="">Buy</button>
+        </div>
+      </div>
+    #infoModal<?php echo $art_id ?>
+    </div>
+    <div class="container"></div>
+ -->
+
+
+  <div class="container">
+    <div class="row">
+        <div class="col-md-4"><img class="img-thumbnail" src="assets/<?php echo $art_url;?>" height=300 width=300 style="position: relative;" alt="Art Image"></div>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-8"><p><?php echo $art_description;?></p></div>
+          </div>
+          <div class="row">
+            <div class="col-md-8"><strong>Price: $<?php echo $art_price;?></strong><hr>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+            <form method="post" class="input-group" action="buy.php">
+              <input type="hidden" name="username" value="<?php echo $username; ?>">
+              <input type="hidden" name="art_id" value="<?php echo $art_id; ?>">
+              <input type="text" name="quantity" placeholder="Quantity" class="form-control" value="1">
+              <input type="submit" class="btn btn-primary" name="buy" value="Buy" class="form-control">
+              <a class="btn btn-secondary" href="home.php" class="form-control">Back</a>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+              
+    <?php
+
+    // function echoval($value='', $art_id='')
+    // {
+    //   // echo $value;
+    //   $_POST['art_id'] = $art_id;
+    //   echo '<script type="text/javascript">alert("Bought");</script>';
+    // }
+    //   if(isset($_POST['buy'])){
+    //     echo echoval($_POST['buy'], $art_id);
+    //   }
+      
+
+    ?>
+
+
+
+
+
+
+    </main>
 
     <footer class="footer">
       <div class="container text-center">
@@ -95,8 +171,3 @@
     <script type="text/javascript" src="style/bootstrap4/js/bootstrap.js"></script>
   </body>
 </html>
-<?php
-
-  } //end of the function that loads the entire page
-  aboutArt(4); //for art id = 3
-?>
