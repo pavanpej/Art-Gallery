@@ -3,13 +3,14 @@
     require_once 'config.php';
   //start session, if it exists
   session_start();
-  if(!isset($_SESSION['username'])){ 
-      header("Location: index.php");
-    }
+  
     $art_id = $result = $row = $art_title = $artist = $art_description = $art_price = $art_url = "";
     $username = $_SESSION['username'];
 
     //Propagate art id from home page for particular button using POST
+    if(!isset($_POST['art_id'])){ 
+      header("Location: home.php");
+    }
     $art_id = $_POST['art_id'];
 
     //sql to obtain details about selected art
@@ -85,30 +86,7 @@
           By: <?php echo $artist;?>
       </h4>
     </div>
-    <!-- 
-    <div class="container">
-      <img src="assets/<?php echo $art_url;?>" height=300 width=300 style="position: relative;" alt="Art Image">
-    </div>
-
-    <div class="container" align="right">
-      <div class="card border-dark mb-3 text-center" style="width: 20rem; ">
-        <img class="card-img-top" src="assets/<?php echo $art_url;?>" height=300 width=300 style="position: relative;" alt="Art Image">
-        <div class="card-body">
-          <h4 class="card-title"><?php echo $art_title;?></h4>
-          <p><?php echo $art_description;?></p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item border-success">Price: $<?php echo $art_price;?></li>
-        </ul>
-        <div class="card-footer">
-          <button type="button" class="btn btn-primary" name="buy" data-toggle="modal" data-target="">Buy</button>
-        </div>
-      </div>
-    #infoModal<?php echo $art_id ?>
-    </div>
-    <div class="container"></div>
- -->
-
+    
 
   <div class="container">
     <div class="row">
@@ -122,7 +100,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-2">Quantity: </div>
+            <div class="col-md-6">
             <form method="post" class="input-group" action="buy.php">
               <input type="hidden" name="username" value="<?php echo $username; ?>">
               <input type="hidden" name="art_id" value="<?php echo $art_id; ?>">

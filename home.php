@@ -11,16 +11,6 @@
   $username = $_SESSION['username'];
   $art_id = $art_title = $art_url = $art_description = "";
 
-  function buy1($art_id1 = "")
-  {
-    // $link = $GLOBALS['link'];
-    $sql = "SELECT seller_name from sellers, art WHERE art.seller_id = sellers.seller_id AND art.art_id = $art_id1;";
-    $result = mysqli_query($link, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $output = $row['seller_name'];
-    echo 'alert($output);';
-  }
-
 ?>
 
 <!doctype html>
@@ -108,7 +98,7 @@
 
           ?>
                 
-              <div class="card border-dark mb-3 text-center" style="width: 20rem; ">
+              <div class="card border-dark mb-3" style="width: 20rem; ">
                 <img class="card-img-top" src="assets/<?php echo $art_url;?>" height=300 width=300 style="position: relative;" alt="Art Image">
                 <div class="card-body">
                   <h4 class="card-title"><?php echo $art_title;?></h4>

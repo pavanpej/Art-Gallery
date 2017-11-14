@@ -70,6 +70,68 @@
         Your Orders
       </h1>
     </div>
+
+    <div class="container">
+        <div class="card-deck">
+
+    <?php
+
+      //art title, artist, art price, seller name, count
+    $sql = "SELECT a.art_title, a.artist, a.art_price, p.count, s.seller_name
+            FROM art a, purchases p, sellers s, customer c
+            WHERE a.art_id = p.art_id AND c.id = p.id AND a.seller_id = s.seller_id 
+            AND c.username = '$username';";
+    $result = mysqli_query($link, $sql);
+    if (!$result || mysqli_num_rows($result) == 0) {
+      echo '<div class="container jumbotron text-center display-4">No Orders yet!</div>';
+    } 
+    else {
+      $i = 1;
+    while($row = mysqli_fetch_assoc($result)) {
+      $art_title =  $row['art_title'];
+      $artist = $row['artist'];
+      $art_price = $row['art_price'];
+      $count = $row['count'];
+      $seller_name = $row['seller_name'];
+
+    ?>
+
+      <div class="card border-dark mb-3 text-center" style="width: 20rem;">
+        <h3 class="card-header"><?php echo $art_title;?></h3>
+        <div class="card-body">
+          <h6 class="text-muted"><em>By:</em> <?php echo $artist; ?></h6>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item border-success"><strong>Price:</strong> $<?php echo $art_price;?></li>
+            <li class="list-group-item border-success"><strong>Sold By:</strong> <?php echo $seller_name;?></li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <strong>Quantity Bought: </strong>
+          <span class="badge badge-primary badge-pill"><?php echo $count; ?></span>
+        </div>
+      </div>
+
+
+
+
+    <?php 
+     
+      if ($i%2 == 0) {
+        echo '</div><br><div class="card-deck">';
+      }
+      $i++;
+      }
+    }
+    
+    
+    mysqli_close($link);
+    ?>
+  </div> <!-- for card deck -->
+</div> 
+<!-- for container of card deck -->
+
+
+
     </main>
 
 

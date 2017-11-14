@@ -71,32 +71,70 @@
       </h1>
     </div>
 
-    <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#infoModal">
-        More
-      </button>
 
-      <!-- Modal -->
-      <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Hello darkness my old friend...</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Buy</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="container">
+        <div class="card-deck">
+    <?php
 
+      $sql = "SELECT seller_id, seller_name, seller_phone FROM sellers ORDER BY seller_name;";
+      $result = mysqli_query($link, $sql);
+      for ($i=0; $i < mysqli_num_rows($result); $i++) {
+        $j = 1;
+
+        while ($row = mysqli_fetch_assoc($result)) {
+
+          $seller_id =  $row['seller_id'];
+              $seller_name = $row['seller_name'];
+              $seller_phone = $row['seller_phone'];
+          // echo "<strong>".$seller_name." ".$seller_phone."</strong><br>";
+
+          $query = "SELECT seller_name, seller_phone, art_title, artist FROM art, sellers WHERE art.seller_id = sellers.seller_id AND sellers.seller_id = $seller_id ORDER BY art_title;";
+
+          $query_result = mysqli_query($link, $query);
+          ?>
+              <div class="card border-success mb-4 text-center" style="width: 20rem; ">
+                  <h4 class="card-header display-4"><?php echo ucfirst($seller_name);?></h4>
+                <div class="card-body">
+                  <h4 class="card-title text-muted">Art They Sell</h4>
+                
+
+          <?php
+
+            while ($query_row = mysqli_fetch_assoc($query_result)) {
+              $art_title =  $query_row['art_title'];
+              $artist = $query_row['artist'];
+              
+              
+          ?>
+                  <ul class="list-group">
+                    <li class="list-group-item list-group-item-action"><?php echo "<b><em>".$art_title."</em></b> by <em>".$artist."</em>"; ?></li>
+                  </ul>
+
+          <?php
+           
+           }
+
+          ?>
+                </div>
+                <div class="card-footer">
+                  <?php echo "<b>Contact :</b> ".$seller_phone; ?>
+                </div>
+              </div>
+                  
+
+              <?php
+          
+          if ($j%2 == 0) {
+            echo '</div><br><div class="card-deck">';
+          }
+          $j++;
+        }
+        
+        }
+      
+
+    ?>
+  </div></div>
     </main>
 
     <footer class="footer">
