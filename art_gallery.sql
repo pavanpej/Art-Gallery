@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2017 at 08:39 PM
+-- Generation Time: Nov 19, 2017 at 07:14 PM
 -- Server version: 5.7.19-log
 -- PHP Version: 7.1.9
 
@@ -41,7 +41,7 @@ INTO oldcount FROM
 WHERE
     purchases.id = custid
         AND purchases.art_id = artid; IF oldcount = 0 THEN
-INSERT INTO purchases
+INSERT INTO purchases(id,art_id,count)
 VALUES(custid, artid, newcount); ELSE
 SET
     updatecount = newcount + oldcount;
@@ -77,11 +77,11 @@ CREATE TABLE `art` (
 --
 
 INSERT INTO `art` (`art_id`, `art_title`, `artist`, `art_type`, `art_price`, `seller_id`) VALUES
-(1, 'The Scream', 'Edvard Munch', 'painting', 100000, 4),
-(2, 'Starry Night', 'Vincent van Gogh', 'painting', 120000, 2),
-(3, 'Mona Lisa', 'Leonardo da Vinci', 'painting', 990000, 3),
-(4, 'The Persistence of Memory', 'Salvador Dali', 'painting', 700000, 2),
-(5, 'The Last Supper', 'Leonardo da Vinci', 'painting', 999000, 3);
+(1, 'The Scream', 'Edvard Munch', 'painting', 1000, 4),
+(2, 'Starry Night', 'Vincent van Gogh', 'painting', 1200, 2),
+(3, 'Mona Lisa', 'Leonardo da Vinci', 'painting', 9900, 3),
+(4, 'The Persistence of Memory', 'Salvador Dali', 'painting', 7000, 1),
+(5, 'The Last Supper', 'Leonardo da Vinci', 'painting', 4400, 3);
 
 -- --------------------------------------------------------
 
@@ -149,18 +149,57 @@ DROP TABLE IF EXISTS `purchases`;
 CREATE TABLE `purchases` (
   `id` int(11) NOT NULL,
   `art_id` int(11) NOT NULL,
-  `count` int(11) DEFAULT '1'
+  `count` int(11) DEFAULT '1',
+  `purchase_amt` int(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `purchases`
 --
 
-INSERT INTO `purchases` (`id`, `art_id`, `count`) VALUES
-(3, 1, 2),
-(3, 4, 6),
-(9, 2, 2),
-(11, 5, 10);
+INSERT INTO `purchases` (`id`, `art_id`, `count`, `purchase_amt`) VALUES
+(3, 5, 3, 13200),
+(5, 4, 48, 336000),
+(9, 1, 2, 2000),
+(9, 2, 3, 3600),
+(9, 4, 2, 14000),
+(10, 1, 1, 100000),
+(10, 2, 3, 360000),
+(11, 3, 100, 99000000);
+
+--
+-- Triggers `purchases`
+--
+DROP TRIGGER IF EXISTS `calc_amt_insert_trig`;
+DELIMITER $$
+CREATE TRIGGER `calc_amt_insert_trig` BEFORE INSERT ON `purchases` FOR EACH ROW BEGIN
+DECLARE price1 INT DEFAULT 0;
+SELECT
+    art.art_price
+INTO price1
+FROM
+    art
+WHERE
+    art.art_id = new.art_id;
+set new.purchase_amt = new.count * price1;
+END
+$$
+DELIMITER ;
+DROP TRIGGER IF EXISTS `calc_amt_update_trig`;
+DELIMITER $$
+CREATE TRIGGER `calc_amt_update_trig` BEFORE UPDATE ON `purchases` FOR EACH ROW BEGIN
+DECLARE price1 INT DEFAULT 0;
+SELECT
+    art.art_price
+INTO price1
+FROM
+    art
+WHERE
+    art.art_id = new.art_id;
+set new.purchase_amt = new.count * price1;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
