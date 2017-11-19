@@ -77,13 +77,13 @@
     <?php
 
       //art title, artist, art price, seller name, count
-    $sql = "SELECT a.art_title, a.artist, a.art_price, p.count, s.seller_name
+    $sql = "SELECT a.art_title, a.artist, a.art_price, p.count, s.seller_name, p.purchase_amt
             FROM art a, purchases p, sellers s, customer c
             WHERE a.art_id = p.art_id AND c.id = p.id AND a.seller_id = s.seller_id 
             AND c.username = '$username';";
     $result = mysqli_query($link, $sql);
     if (!$result || mysqli_num_rows($result) == 0) {
-      echo '<div class="container jumbotron text-center display-4">No Orders yet!</div>';
+      echo '<div class="container jumbotron text-center display-4" style="padding: 2em;">No Orders yet!</div>';
     } 
     else {
       $i = 1;
@@ -93,6 +93,7 @@
       $art_price = $row['art_price'];
       $count = $row['count'];
       $seller_name = $row['seller_name'];
+      $purchase_amt = $row['purchase_amt'];
 
     ?>
 
@@ -108,6 +109,9 @@
         <div class="card-footer">
           <strong>Quantity Bought: </strong>
           <span class="badge badge-primary badge-pill"><?php echo $count; ?></span>
+          <br>
+          <strong>Amount spent: </strong>
+          <span class="badge badge-primary badge-pill"><?php echo "$".$purchase_amt; ?></span>
         </div>
       </div>
 

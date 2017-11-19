@@ -29,6 +29,18 @@
 
     <!-- Other Custom Style -->
     <link rel="stylesheet" type="text/css" href="style/otherstyle.css">
+    <style type="text/css">
+      .dropcaps:first-letter {
+        margin: 0em 0 -0.05em 0;
+        padding: 0 0.065em 0 0;
+        font-size: 5em;
+        line-height: 0.85em;
+        float: left;
+      }
+      p {
+        font-size: 130%;
+      }
+    </style>
   </head>
 
   <body>
@@ -62,16 +74,26 @@
 
 
     <!-- Content -->
-    <main role="main">
-      
-    <div class="jumbotron text-center head1">
-      <h1>
-        About
-      </h1>
-    </div>
+    <main role="main" class="jumbotron">
+      <div class="lead" style="padding: 0.6em;">
+
+        <h1 class="head1 text-center display-4">
+          About
+        </h1>
+        <hr>
+        <div class="container">
+          <p class="dropcaps">
+            The art is at the centre of everything we do here. We believe that the access to beautiful and special objects is an important part of people’s personal and cultural life.<br>
+            Serving our clients is our major ambition. We cherish the role that we have earned as cultural stewards of the objects that pass through our hands.
+          </p>
+          <p>
+            The Gallery houses a significant collection of the world's most famous artworks covering the period from 1400 AD to the present. Historical works by renowned artists such as Edvard Munch and Leonardo da Vinci, master works by Vincent van Gogh, and Salvador Dali.
+            The collection is sourced from other public and private collections internationally.
+          </p>
+        </div>
+
+      </div>
     </main>
-
-
     <footer class="footer">
       <div class="container text-center">
         <span class="text-muted">&copy; Pavan Rao, 2017.</span>

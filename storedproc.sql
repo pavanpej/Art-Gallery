@@ -12,7 +12,7 @@ INTO oldcount FROM
 WHERE
     purchases.id = custid
         AND purchases.art_id = artid; IF oldcount = 0 THEN
-INSERT INTO purchases
+INSERT INTO purchases(id,art_id,count)
 VALUES(custid, artid, newcount); ELSE
 SET
     updatecount = newcount + oldcount;
