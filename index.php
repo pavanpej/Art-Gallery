@@ -113,6 +113,8 @@
                 <button type="submit" formaction="signup.php" class="btn btn-secondary" id="signup">Sign Up</button>
        </div>
     </form>
+    <script type="text/javascript" src="style/bootstrap4/js/jquery-3.2.1.slim.min.js"></script>
+    <script type="text/javascript" src="style/bootstrap4/js/popper.min.js"></script>
 	<script type="text/javascript" src="style/bootstrap4/js/bootstrap.js"></script>
 </body>
 </html>
