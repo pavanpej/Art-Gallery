@@ -24,22 +24,21 @@
 
 				$sql = "SELECT id FROM customer WHERE username='$username';";
 				$result = mysqli_query($link, $sql);
-		    	$row = mysqli_fetch_assoc($result);
-		    	$id = $row['id'];
+				$row = mysqli_fetch_assoc($result);
+				$id = $row['id'];
 
-		    	// echo "UID: ". $id ."<br>";
-		    	// echo "Username: ". ucfirst($username) ."<br>";
+				// echo "UID: ". $id ."<br>";
+				// echo "Username: ". ucfirst($username) ."<br>";
 
 				$sql = "CALL update_count('$id','$artid','$quantity');";
 				$result = mysqli_query($link, $sql);
 
 				echo "Congratulations, <strong>" . ucfirst($username) ."</strong><br>
 				You've bought <strong>". $quantity ."</strong> art piece(s).<br>";
-			      
-		    }
-		    else{
-		    	echo "Quantity can't be 0!!!<br>";
-		    }
+			}
+			else{
+				echo "Quantity can't be 0!!!<br>";
+			}
 
 		?>
 		
